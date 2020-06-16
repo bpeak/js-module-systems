@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>AMD</h1>
+    <button class="render">render</button>
+    <script>
+        // load js file when clicked
+        const deps = new Map()
+
+        document.querySelector('.render').addEventListener('click', () => {
+            loadScript("/js/data.js", function() {
+                console.log("loaded data.js")
+                loadScript("/js/render.js", function() {
+                    console.log('callback')
+                    render.draw(data)
+                })
+            })
+        })
+        
+        function loadScript(url, callback) {
+            if(deps.has(url)) {
+                console.log(`already loaded: ${url}`)
+                callback()
+                return
+            }
+            console.log(`loading: ${url}`)
+            const $script = document.createElement('script');  
+            $script.type = 'text/javascript';  
+            $script.onload = function() {
+                deps.set(url)
+                callback()
+            }
+            $script.src = url;
+            document.getElementsByTagName('head')[0].appendChild($script);    
+        }
+
+        /* 기본
+        var scriptEl = document.createElement('script');  
+        scriptEl.type = 'text/javascript';  
+        scriptEl.src = 'example.js';  
+        document.getElementsByTagName('head')[0].appendChild(scriptEl);  
+        */
+
+    </script>
+</body>
+</html>
