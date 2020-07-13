@@ -7,9 +7,10 @@
 <script src="main.js"></script>
 ```
 별다른 모듈시스템이 존재하지 않았음  
-필요하다면 script src 로 로드
-> 문제1) 전역스코프 오염  
-> 문제2) 선언순서(로드순서)에 의존성이 생김
+필요하다면 script src 로 로드  
+
+문제1) 전역스코프 오염  
+문제2) 선언순서(로드순서)에 의존성이 생김
 
 ## AMD
 > Asynchronous Module Definition ( 비동기적으로 모듈을 로드 )  
@@ -52,6 +53,26 @@ if 문으로 모듈시스템을 체크하고 그에 맞게 로드
 });
 ```
 
+## ESM
+> ECMAScript Module
+자바스크립트 명세에 추가된 모듈시스템 ( import export )
+```html
+<script src="a.js" type="module">
+<script src="main.js" type="module">
+```
+```js
+// main.js
+import a from './a.js'
+a()
+```
+```js
+// a.js
+function a() {
+  console.log('hello')
+}
+export default a
+```
+
 ## cjs(require) vs amd
 amd는 브라우져에서 동작하는 js를 위해서 탄생했음  
 그래서 비동기적인 로드를 선택 ( 파일시스템에서 모듈을 읽는게 아님 )
@@ -63,4 +84,4 @@ amd는 브라우져에서 동작하는 js를 위해서 탄생했음
 
 ## cjs(require) vs es6 module(import)
 require는 필요한 시점에 종속성(모듈)을 로드하면서 실행하지만  
-import 모든 모듈들이 **미리** 파싱되고 로드되고나서 실행된다
+import 모든 모듈들이 **미리** 파싱되고 로드되고나서 실행된다.
